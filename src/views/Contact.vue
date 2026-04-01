@@ -85,6 +85,7 @@ const resetForm = () => {
 
 .contact-page {
   padding-top: 4rem;
+  @media (max-width: 736px) { padding-top: 3rem; }
 }
 
 .major {
@@ -107,11 +108,21 @@ const resetForm = () => {
   margin-top: 3rem;
   margin-bottom: 4rem;
 
+  @media (max-width: 736px) {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+  }
+
   .fields {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
     margin-bottom: 2rem;
+
+    @media (max-width: 736px) {
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
 
     .field {
       width: 100%;
@@ -141,6 +152,7 @@ const resetForm = () => {
         color: var(--color-text);
         border-radius: 4px;
         transition: border-color 0.2s ease;
+        font-size: 1rem; // 防止 iOS 自動放大
 
         &:focus {
           outline: none;
@@ -203,5 +215,13 @@ const resetForm = () => {
   padding: 0;
   display: flex;
   gap: 1.5rem;
+
+  @media (max-width: 736px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    
+    li { width: 100%; }
+  }
 }
 </style>

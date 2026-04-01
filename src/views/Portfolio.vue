@@ -70,6 +70,7 @@ const projects = ref([
 
 .portfolio {
   padding-top: 4rem;
+  @media (max-width: 736px) { padding-top: 3rem; }
 }
 
 .major {
@@ -90,12 +91,14 @@ const projects = ref([
 
 .features {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   margin-top: 4rem;
 
-  @media (max-width: 736px) {
+  @media (max-width: 980px) {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-top: 2rem;
   }
 
   article {
@@ -104,6 +107,12 @@ const projects = ref([
     border: solid 1px var(--color-border);
     border-radius: 4px;
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 736px) {
+      padding: 2rem;
+    }
 
     &:hover {
       transform: translateY(-5px);
@@ -111,7 +120,12 @@ const projects = ref([
     }
 
     h3 { font-size: 1.2rem; margin-bottom: 1rem; }
-    p { font-size: 0.9rem; margin-bottom: 2rem; height: 4.5rem; overflow: hidden; }
+    p { 
+      font-size: 0.9rem; 
+      margin-bottom: 2rem; 
+      flex-grow: 1;
+      @media (min-width: 981px) { height: 4.5rem; overflow: hidden; }
+    }
   }
 }
 
@@ -121,5 +135,10 @@ const projects = ref([
   margin-top: 4rem;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    li { width: 100%; }
+  }
 }
 </style>

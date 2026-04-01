@@ -39,9 +39,15 @@ defineProps({
   text-align: center;
   min-height: 100vh;
 
+  @media (max-width: 980px) {
+    padding: 8rem 0 6rem 0;
+    min-height: 80vh;
+    background-attachment: scroll; // 行動裝置上禁用 fixed 以提升效能
+  }
+
   @media (max-width: 736px) {
     padding: 6rem 0 4rem 0;
-    min-height: 80vh;
+    min-height: 70vh;
   }
 
   .inner {
@@ -50,6 +56,7 @@ defineProps({
     padding: 0 2rem;
     position: relative;
     z-index: 1;
+    width: 100%;
 
     .logo {
       display: inline-block;
@@ -58,6 +65,11 @@ defineProps({
         width: 6rem;
         height: 6rem;
         filter: drop-shadow(0 0 10px var(--color-accent));
+
+        @media (max-width: 736px) {
+          width: 4rem;
+          height: 4rem;
+        }
       }
     }
 
@@ -66,9 +78,20 @@ defineProps({
       margin-bottom: 1.5rem;
       letter-spacing: 0.5rem;
       text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      word-wrap: break-word;
+
+      @media (max-width: 980px) {
+        font-size: 2.8rem;
+        letter-spacing: 0.3rem;
+      }
 
       @media (max-width: 736px) {
-        font-size: 2rem;
+        font-size: 2.2rem;
+        letter-spacing: 0.2rem;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 1.8rem;
       }
     }
 
@@ -80,8 +103,15 @@ defineProps({
       margin-bottom: 3rem;
       text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 
+      @media (max-width: 980px) {
+        font-size: 1rem;
+        letter-spacing: 0.2rem;
+      }
+
       @media (max-width: 736px) {
         font-size: 0.9rem;
+        letter-spacing: 0.15rem;
+        margin-bottom: 2rem;
       }
     }
 
@@ -91,6 +121,14 @@ defineProps({
       display: flex;
       justify-content: center;
       gap: 1.5rem;
+
+      @media (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        
+        li { width: 100%; }
+      }
     }
   }
 }

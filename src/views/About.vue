@@ -71,6 +71,7 @@
 
 .about {
   padding-top: 4rem;
+  @media (max-width: 736px) { padding-top: 3rem; }
 }
 
 .major {
@@ -92,9 +93,11 @@
 .table-wrapper {
   overflow-x: auto;
   margin-bottom: 3rem;
+  -webkit-overflow-scrolling: touch; // 平滑捲動
   
   table {
     width: 100%;
+    min-width: 400px; // 確保在極小螢幕上可捲動
     border-collapse: collapse;
     
     th {
@@ -123,6 +126,11 @@
   border-left: solid 2px var(--color-border);
   position: relative;
 
+  @media (max-width: 736px) {
+    padding-left: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -132,12 +140,22 @@
     height: 1rem;
     border-radius: 50%;
     background-image: var(--gradient-accent);
+
+    @media (max-width: 736px) {
+      width: 0.8rem;
+      height: 0.8rem;
+      left: -0.4rem;
+    }
   }
   
   h4 {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
     color: var(--color-text);
+
+    @media (max-width: 736px) {
+      font-size: 1rem;
+    }
   }
   
   .date {
@@ -156,5 +174,10 @@
   margin-top: 4rem;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    li { width: 100%; }
+  }
 }
 </style>

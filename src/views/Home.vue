@@ -97,6 +97,11 @@ const skills = ref([
   padding-bottom: 1rem;
   margin-bottom: 2rem;
 
+  @media (max-width: 736px) {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+  }
+
   &::after {
     content: '';
     position: absolute;
@@ -105,6 +110,20 @@ const skills = ref([
     width: 3rem;
     height: 2px;
     background-image: var(--gradient-accent);
+
+    @media (max-width: 980px) {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
+}
+
+.content {
+  @media (max-width: 980px) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -114,5 +133,10 @@ const skills = ref([
   margin-top: 3rem;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 480px) {
+    width: 100%;
+    li { width: 100%; }
+  }
 }
 </style>

@@ -92,7 +92,7 @@ const projectsData = [
     id: 5,
     name: '設計系統',
     category: 'UI/UX Design',
-    longDescription: '為企業級應用建立的一套完整的 UI 元件庫 and 設計規範，確保不同產品之間的一致性。',
+    longDescription: '為企業級應用建立的一套完整的 UI 元件庫和設計規範，確保不同產品之間的一致性。',
     technologies: ['Figma', 'Storybook', 'Styled Components', 'TypeScript'],
     demoUrl: '#',
     repoUrl: '#'
@@ -119,6 +119,7 @@ onMounted(() => {
 
 .project-detail {
   padding-top: 4rem;
+  @media (max-width: 736px) { padding-top: 3rem; }
 }
 
 .category {
@@ -135,8 +136,14 @@ onMounted(() => {
   margin-bottom: 4rem;
   font-size: 1.5rem;
   
+  @media (max-width: 980px) {
+    height: 20rem;
+    margin-bottom: 2rem;
+  }
+
   @media (max-width: 736px) {
     height: 15rem;
+    font-size: 1.2rem;
   }
 }
 
@@ -163,6 +170,11 @@ onMounted(() => {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 3rem;
+
+  @media (max-width: 736px) {
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
   
   li {
     padding: 0.5rem 1.5rem;
@@ -174,6 +186,13 @@ onMounted(() => {
     letter-spacing: 0.1rem;
     border-radius: 4px;
     color: var(--color-text);
+
+    @media (max-width: 480px) {
+      padding: 0.4rem 1rem;
+      font-size: 0.7rem;
+      width: 100%;
+      text-align: center;
+    }
   }
 }
 
@@ -184,5 +203,14 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   gap: 1.5rem;
+
+  @media (max-width: 736px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    
+    li { width: 100%; }
+  }
 }
 </style>

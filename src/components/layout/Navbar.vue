@@ -81,6 +81,12 @@ onUnmounted(() => {
   padding: 0 1.5rem;
   transition: background-color 0.3s ease;
 
+  @media (max-width: 736px) {
+    height: 3rem;
+    line-height: 3rem;
+    padding: 0 1rem;
+  }
+
   &.alt {
     background-color: transparent;
   }
@@ -91,6 +97,12 @@ onUnmounted(() => {
     letter-spacing: 0.25rem;
     text-transform: uppercase;
     font-weight: 700;
+    white-space: nowrap;
+
+    @media (max-width: 480px) {
+      font-size: 0.7rem;
+      letter-spacing: 0.15rem;
+    }
 
     a {
       border-bottom: 0;
@@ -107,6 +119,11 @@ onUnmounted(() => {
       letter-spacing: 0.2rem;
       color: inherit;
       
+      @media (max-width: 480px) {
+        font-size: 0.7rem;
+        letter-spacing: 0.1rem;
+      }
+
       &::before {
         content: '≡';
         margin-right: 0.5rem;
@@ -120,7 +137,7 @@ onUnmounted(() => {
 #menu {
   background-color: var(--color-bg-alt);
   height: 100%;
-  max-width: 80%;
+  max-width: 100%; // 行動裝置上允許全寬
   position: fixed;
   right: 0;
   top: 0;
@@ -132,6 +149,11 @@ onUnmounted(() => {
   overflow-y: auto;
   box-shadow: -5px 0 20px var(--shadow-color);
 
+  @media (max-width: 736px) {
+    width: 100%; // 手機上全螢幕選單
+    padding: 2rem;
+  }
+
   &.active {
     transform: translateX(0);
   }
@@ -142,6 +164,11 @@ onUnmounted(() => {
       border-bottom: solid 2px var(--color-border);
       padding-bottom: 1rem;
       margin-bottom: 2rem;
+
+      @media (max-width: 736px) {
+        font-size: 1.2rem;
+        margin-bottom: 1.5rem;
+      }
     }
 
     .links {
