@@ -1,101 +1,58 @@
 <template>
-  <div class="contact">
-    <section class="section section-light">
-      <div class="container">
-        <h1 class="text-center mb-lg">聯絡我</h1>
-        
-        <div class="contact-grid">
-          <div class="contact-info">
-            <h2>讓我們保持聯繫</h2>
-            <p>
-              如果您對我的作品感興趣，或者想要討論新的專案合作機會，
-              歡迎通過以下方式與我聯絡。
-            </p>
-
-            <div class="contact-items">
-              <div class="contact-item">
-                <h3>電子郵件</h3>
-                <a href="mailto:hello@example.com">hello@example.com</a>
-              </div>
-
-              <div class="contact-item">
-                <h3>電話</h3>
-                <a href="tel:+886123456789">+886 (123) 456-789</a>
-              </div>
-
-              <div class="contact-item">
-                <h3>地址</h3>
-                <p>台灣，台北市</p>
-              </div>
-
-              <div class="contact-item">
-                <h3>社群媒體</h3>
-                <div class="social-links">
-                  <a href="#" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" class="social-link">Twitter</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <form class="contact-form" @submit.prevent="handleSubmit">
-            <div class="form-group">
-              <label for="name">姓名</label>
-              <input 
-                type="text" 
-                id="name" 
-                v-model="form.name"
-                placeholder="請輸入您的姓名"
-                required
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="email">電子郵件</label>
-              <input 
-                type="email" 
-                id="email" 
-                v-model="form.email"
-                placeholder="請輸入您的電子郵件"
-                required
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="subject">主旨</label>
-              <input 
-                type="text" 
-                id="subject" 
-                v-model="form.subject"
-                placeholder="請輸入訊息主旨"
-                required
-              >
-            </div>
-
-            <div class="form-group">
-              <label for="message">訊息</label>
-              <textarea 
-                id="message" 
-                v-model="form.message"
-                placeholder="請輸入您的訊息"
-                rows="5"
-                required
-              ></textarea>
-            </div>
-
-            <button type="submit" class="btn btn-primary">
-              發送訊息
-            </button>
-
-            <p v-if="submitMessage" class="submit-message" :class="{ success: submitSuccess }">
-              {{ submitMessage }}
-            </p>
-          </form>
-        </div>
+  <article class="post">
+    <header>
+      <div class="title">
+        <h2>聯絡我</h2>
+        <p>讓我們保持聯繫，討論新的合作機會</p>
       </div>
+      <div class="meta">
+        <time class="published" datetime="2026-04-01">April 1, 2026</time>
+        <a href="#" class="author"><span class="name">Jane Doe</span><img src="../assets/vue.svg" alt="" /></a>
+      </div>
+    </header>
+    
+    <section>
+      <p>如果您對我的作品感興趣，或者想要討論新的專案合作機會，歡迎通過以下表單與我聯絡。我通常會在 24 小時內回覆。</p>
+      
+      <form @submit.prevent="handleSubmit" class="contact-form">
+        <div class="row gtr-uniform">
+          <div class="col-6 col-12-xsmall">
+            <input type="text" v-model="form.name" placeholder="姓名" required />
+          </div>
+          <div class="col-6 col-12-xsmall">
+            <input type="email" v-model="form.email" placeholder="電子郵件" required />
+          </div>
+          <div class="col-12">
+            <input type="text" v-model="form.subject" placeholder="主旨" required />
+          </div>
+          <div class="col-12">
+            <textarea v-model="form.message" placeholder="訊息內容" rows="6" required></textarea>
+          </div>
+          <div class="col-12">
+            <ul class="actions">
+              <li><input type="submit" value="發送訊息" class="button large" /></li>
+              <li><input type="reset" value="重設" class="button large" @click="resetForm" /></li>
+            </ul>
+          </div>
+        </div>
+      </form>
+      
+      <p v-if="submitMessage" class="submit-message" :class="{ success: submitSuccess }">
+        {{ submitMessage }}
+      </p>
     </section>
-  </div>
+
+    <hr />
+
+    <section>
+      <h3>其他聯絡方式</h3>
+      <ul class="contact-list">
+        <li><strong>電子郵件:</strong> <a href="mailto:hello@example.com">hello@example.com</a></li>
+        <li><strong>電話:</strong> <a href="tel:+886123456789">+886 (123) 456-789</a></li>
+        <li><strong>地址:</strong> 台灣，台北市</li>
+      </ul>
+    </section>
+  </article>
 </template>
 
 <script setup>
@@ -116,167 +73,102 @@ const handleSubmit = () => {
   submitMessage.value = '感謝您的訊息！我會盡快回覆您。';
   
   setTimeout(() => {
-    form.value = {
-      name: '',
-      email: '',
-      subject: '',
-      message: ''
-    };
+    resetForm();
     submitMessage.value = '';
   }, 3000);
+};
+
+const resetForm = () => {
+  form.value = {
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  };
 };
 </script>
 
 <style scoped lang="scss">
 @import '../assets/styles.scss';
 
-.contact {
-  min-height: 100vh;
-  background-color: var(--color-bg);
-}
-
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 3rem;
-  }
-}
-
-.contact-info {
-  h2 {
-    margin-bottom: 1.5rem;
-    color: var(--color-text);
-  }
-
-  > p {
-    margin-bottom: 3rem;
-    line-height: 1.8;
-    color: var(--color-text-muted);
-  }
-}
-
-.contact-items {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-}
-
-.contact-item {
-  h3 {
-    font-size: 1.25rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-accent);
-  }
-
-  a {
-    color: var(--color-text-muted);
-    transition: color $transition-base;
-    font-size: 1.1rem;
-
-    &:hover {
-      color: var(--color-accent);
+.contact-form {
+  margin-top: 2rem;
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    
+    .col-6 { width: calc(50% - 0.75rem); }
+    .col-12 { width: 100%; }
+    
+    @media (max-width: 736px) {
+      .col-6 { width: 100%; }
     }
   }
-
-  p {
-    color: var(--color-text-muted);
-    margin-bottom: 0;
-    font-size: 1.1rem;
+  
+  input[type="text"],
+  input[type="email"],
+  textarea {
+    width: 100%;
+    background: var(--color-bg-secondary);
+    border: solid 1px var(--color-border);
+    padding: 0.75rem 1rem;
+    font-family: var(--font-family-serif);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    transition: border-color 0.2s ease;
+    
+    &:focus {
+      outline: none;
+      border-color: var(--color-accent);
+    }
+  }
+  
+  input[type="submit"],
+  input[type="reset"] {
+    border-radius: 0;
   }
 }
 
-.social-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+hr {
+  border: 0;
+  border-bottom: solid 1px var(--color-border);
+  margin: 3rem 0;
 }
 
-.social-link {
-  display: inline-block;
-  padding: 0.6rem 1.2rem;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  color: var(--color-text);
-  transition: all $transition-base;
-  text-decoration: none;
-  background-color: var(--color-card-bg);
-
-  &:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-    background-color: var(--color-bg-secondary);
+.contact-list {
+  list-style: none;
+  padding: 0;
+  
+  li {
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    
+    strong {
+      font-family: var(--font-family-sans);
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.1rem;
+      margin-right: 0.5rem;
+    }
   }
-}
-
-.contact-form {
-  background-color: var(--color-bg-secondary);
-  padding: 3rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px var(--shadow-color);
-  border: 1px solid var(--color-border);
-  @media (max-width: 480px) { padding: 1.5rem; }
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-
-  &:last-of-type {
-    margin-bottom: 2.5rem;
-  }
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  font-size: 0.9rem;
-}
-
-input,
-textarea {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  font-family: $font-family-primary;
-  font-size: 1rem;
-  color: var(--color-text);
-  background-color: var(--color-card-bg);
-  transition: all $transition-base;
-
-  &:focus {
-    outline: none;
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 3px rgba($color-forest-green, 0.1);
-  }
-
-  &::placeholder {
-    color: var(--color-text-muted);
-    opacity: 0.6;
-  }
-}
-
-textarea {
-  resize: vertical;
 }
 
 .submit-message {
   margin-top: 1.5rem;
   padding: 1rem;
-  border-radius: 4px;
+  background: var(--color-bg-secondary);
+  border: solid 1px var(--color-border);
   text-align: center;
-  background-color: rgba($color-forest-green, 0.1);
-  color: var(--color-accent);
-  font-weight: 500;
-
+  font-family: var(--font-family-sans);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
+  
   &.success {
-    background-color: rgba($color-sage-green, 0.1);
-    color: $color-sage-green;
+    color: var(--color-accent);
+    border-color: var(--color-accent);
   }
 }
 </style>

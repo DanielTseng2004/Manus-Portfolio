@@ -5,10 +5,16 @@
         <h1 class="hero-title">{{ title }}</h1>
         <p class="hero-subtitle">{{ subtitle }}</p>
         <div class="hero-actions">
-          <router-link to="/portfolio" class="btn btn-primary">
+          <router-link
+            to="/portfolio"
+            class="btn btn-primary"
+          >
             查看作品集
           </router-link>
-          <router-link to="/contact" class="btn btn-secondary">
+          <router-link
+            to="/contact"
+            class="btn btn-secondary"
+          >
             聯絡我
           </router-link>
         </div>
@@ -21,20 +27,24 @@
 defineProps({
   title: {
     type: String,
-    default: '歡迎來到我的作品集'
+    default: "歡迎來到我的作品集",
   },
   subtitle: {
     type: String,
-    default: '展示我的設計與開發技能'
-  }
+    default: "展示我的設計與開發技能",
+  },
 });
 </script>
 
 <style scoped lang="scss">
-@import '../assets/styles.scss';
+@import "../assets/styles.scss";
 
 .hero {
-  background: linear-gradient(135deg, var(--color-bg) 0%, var(--color-bg-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--color-bg) 0%,
+    var(--color-bg-secondary) 100%
+  );
   padding: 6rem 0;
   min-height: 500px;
   display: flex;
@@ -50,25 +60,33 @@ defineProps({
   }
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -50%;
     right: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba($color-sage-green, 0.15) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba($color-sage-green, 0.15) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     pointer-events: none;
   }
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -30%;
     left: -5%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba($color-warm-brown, 0.1) 0%, transparent 70%);
+    background: radial-gradient(
+      circle,
+      rgba($color-warm-brown, 0.1) 0%,
+      transparent 70%
+    );
     border-radius: 50%;
     pointer-events: none;
   }

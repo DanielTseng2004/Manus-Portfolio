@@ -2,31 +2,27 @@
 @use "sass:math";
 
 // ============================================
-// 北歐風格色調系統 - 變數定義
+// Future Imperfect 風格色調系統
 // ============================================
 
-// 淺色模式基礎色
-$light-bg: #fafaf8;
-$light-bg-secondary: #f0ede8;
-$light-text: #3d3935;
-$light-text-muted: #8b8680;
-$light-border: #d4cfc8;
+// 淺色模式
+$light-bg: #ffffff;
+$light-bg-secondary: #f4f4f4;
+$light-text: #3c3b3b;
+$light-text-muted: #aaaaaa;
+$light-border: #eeeeee;
+$light-accent: #2ebaae; // 經典的青綠色
 
-// 深色模式基礎色 (北歐深色調)
-$dark-bg: #1a1c1e;               // 深炭灰背景
-$dark-bg-secondary: #25282b;     // 較淺的深灰背景
-$dark-text: #e1e1e1;             // 淺灰文字
-$dark-text-muted: #a0a0a0;       // 中灰文字
-$dark-border: #3a3d40;           // 深色邊框
-
-// 點綴色 - 自然色系 (兩模式通用)
-$color-forest-green: #2d5a3d;    // 森林綠
-$color-sage-green: #7a9b8e;      // 鼠尾草綠
-$color-warm-brown: #8b7355;      // 溫暖棕
-$color-soft-beige: #c9b8a8;      // 柔和米色
+// 深色模式 (保留北歐深色調但調整細節)
+$dark-bg: #1a1c1e;
+$dark-bg-secondary: #25282b;
+$dark-text: #e1e1e1;
+$dark-text-muted: #888888;
+$dark-border: #333333;
+$dark-accent: #2ebaae;
 
 // ============================================
-// CSS 變數系統 (支援動態切換)
+// CSS 變數系統
 // ============================================
 
 :root {
@@ -35,10 +31,11 @@ $color-soft-beige: #c9b8a8;      // 柔和米色
   --color-text: #{$light-text};
   --color-text-muted: #{$light-text-muted};
   --color-border: #{$light-border};
-  --color-accent: #{$color-forest-green};
-  --color-accent-soft: #{$color-sage-green};
+  --color-accent: #{$light-accent};
   --color-card-bg: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.07);
+  --shadow-color: rgba(0, 0, 0, 0.05);
+  --font-family-serif: "Source Sans Pro", Helvetica, sans-serif;
+  --font-family-sans: "Raleway", Helvetica, sans-serif;
 }
 
 [data-theme="dark"] {
@@ -47,27 +44,13 @@ $color-soft-beige: #c9b8a8;      // 柔和米色
   --color-text: #{$dark-text};
   --color-text-muted: #{$dark-text-muted};
   --color-border: #{$dark-border};
-  --color-accent: #{$color-sage-green}; // 深色模式下使用較亮的綠色
-  --color-accent-soft: #{$color-forest-green};
+  --color-accent: #{$dark-accent};
   --color-card-bg: #{$dark-bg-secondary};
-  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 // ============================================
-// 字體與間距系統
-// ============================================
-
-$font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-$font-size-base: 1rem;
-$spacing-md: 1.5rem;
-$spacing-lg: 2rem;
-$spacing-xl: 3rem;
-$spacing-2xl: 4rem;
-$spacing-3xl: 6rem;
-$transition-base: 250ms ease-in-out;
-
-// ============================================
-// 全域基礎樣式 (使用 CSS 變數)
+// 全域基礎樣式
 // ============================================
 
 * {
@@ -77,99 +60,247 @@ $transition-base: 250ms ease-in-out;
 }
 
 body {
-  font-family: $font-family-primary;
-  font-size: $font-size-base;
-  line-height: 1.6;
+  font-family: var(--font-family-serif);
+  font-size: 1rem;
+  line-height: 1.75;
   color: var(--color-text);
-  background-color: var(--color-bg);
-  transition: background-color $transition-base, color $transition-base;
+  background-color: var(--color-bg-secondary); // 背景通常是淺灰色
+  transition: background-color 250ms ease, color 250ms ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-family-sans);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.25rem;
   color: var(--color-text);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 p {
-  color: var(--color-text-muted);
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 a {
-  color: var(--color-accent);
+  color: inherit;
   text-decoration: none;
-  transition: color $transition-base;
-  &:hover { opacity: 0.8; }
+  border-bottom: dotted 1px rgba(160, 160, 160, 0.65);
+  transition: color 0.2s ease, border-bottom-color 0.2s ease;
+
+  &:hover {
+    color: var(--color-accent);
+    border-bottom-color: transparent;
+  }
 }
 
 // ============================================
-// 通用元件樣式
+// 佈局元件
 // ============================================
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-md;
-}
+  padding: 0 2rem;
+  display: flex;
+  gap: 3rem;
 
-.section {
-  padding: $spacing-3xl 0;
-  @media (max-width: 768px) { padding: $spacing-2xl 0; }
-}
-
-.section-secondary {
-  background-color: var(--color-bg-secondary);
-}
-
-.card {
-  background-color: var(--color-card-bg);
-  border-radius: 8px;
-  padding: $spacing-lg;
-  box-shadow: 0 4px 6px var(--shadow-color);
-  transition: all $transition-base;
-  border: 1px solid var(--color-border);
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px var(--shadow-color);
+  @media (max-width: 980px) {
+    flex-direction: column;
+    padding: 0 1.5rem;
   }
 }
 
-.btn {
+#main {
+  flex: 1;
+  min-width: 0; // 防止內容溢出
+}
+
+#sidebar {
+  width: 22rem;
+  flex-shrink: 0;
+
+  @media (max-width: 980px) {
+    width: 100%;
+  }
+}
+
+// ============================================
+// Future Imperfect 文章/專案卡片樣式
+// ============================================
+
+.post {
+  background: var(--color-card-bg);
+  border: solid 1px var(--color-border);
+  margin-bottom: 3rem;
+  padding: 3rem;
+
+  @media (max-width: 736px) {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: solid 1px var(--color-border);
+    margin: -3rem -3rem 3rem -3rem;
+    padding: 3rem;
+
+    @media (max-width: 736px) {
+      flex-direction: column;
+      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+      padding: 1.5rem;
+    }
+
+    .title {
+      flex: 1;
+      h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+      }
+      p {
+        text-transform: uppercase;
+        letter-spacing: 0.15rem;
+        font-size: 0.7rem;
+        color: var(--color-text-muted);
+        margin-bottom: 0;
+      }
+    }
+
+    .meta {
+      text-align: right;
+      margin-left: 2rem;
+      min-width: 8rem;
+
+      @media (max-width: 736px) {
+        text-align: left;
+        margin-left: 0;
+        margin-top: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .published {
+        font-family: var(--font-family-sans);
+        font-size: 0.7rem;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.15rem;
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+
+      .author {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.75rem;
+
+        @media (max-width: 736px) {
+          justify-content: flex-start;
+        }
+
+        .name {
+          font-size: 0.6rem;
+          text-transform: uppercase;
+          letter-spacing: 0.15rem;
+          border-bottom: 0;
+        }
+
+        img {
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .image.featured {
+    display: block;
+    margin: 0 0 3rem 0;
+    width: 100%;
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
+
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3rem;
+
+    .actions {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .stats {
+      list-style: none;
+      display: flex;
+      gap: 1.5rem;
+      color: var(--color-text-muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1rem;
+
+      li {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: default;
+      }
+    }
+  }
+}
+
+// ============================================
+// 按鈕樣式
+// ============================================
+
+.button {
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all $transition-base;
-  border: none;
-}
-
-.btn-primary {
-  background-color: var(--color-accent);
-  color: #ffffff;
-  &:hover { 
-    background-color: color.adjust($color-forest-green, $lightness: -5%); 
-  }
-}
-
-.btn-secondary {
+  height: 3rem;
+  line-height: 3rem;
+  padding: 0 2rem;
   background-color: transparent;
-  color: var(--color-accent);
-  border: 2px solid var(--color-accent);
+  border: solid 1px var(--color-border);
+  color: var(--color-text);
+  font-family: var(--font-family-sans);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.2rem;
+  font-size: 0.7rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+
   &:hover {
-    background-color: var(--color-accent);
-    color: #ffffff;
+    border-color: var(--color-accent);
+    color: var(--color-accent) !important;
+  }
+
+  &.large {
+    height: 4rem;
+    line-height: 4rem;
+    padding: 0 3rem;
+    font-size: 0.8rem;
   }
 }
 
-.grid {
-  display: grid;
-  gap: 2rem;
-  &-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
-  &-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
-}
+// ============================================
+// 工具類
+// ============================================
 
-.text-center { text-align: center; }
-.mb-lg { margin-bottom: 2rem; }
-.mt-md { margin-top: 1.5rem; }
+.section-title {
+  border-bottom: solid 1px var(--color-border);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  font-size: 0.8rem;
+}

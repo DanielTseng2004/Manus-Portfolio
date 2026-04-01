@@ -1,42 +1,65 @@
 <template>
-  <nav class="navbar">
-    <div class="container navbar-container">
-      <div class="navbar-brand">
-        <router-link to="/" class="logo">
-          <span class="logo-text">Portfolio</span>
-        </router-link>
-      </div>
-      
-      <div class="navbar-actions">
-        <!-- 深色模式切換按鈕 -->
-        <button class="theme-toggle" @click="toggleTheme" :title="isDark ? '切換至淺色模式' : '切換至深色模式'">
-          <i v-if="isDark" class="bi bi-sun-fill"></i>
-          <i v-else class="bi bi-moon-stars-fill"></i>
-        </button>
-
-        <button class="navbar-toggle" @click="toggleMenu" :class="{ active: isMenuOpen }">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-
-      <ul class="navbar-menu" :class="{ active: isMenuOpen }">
-        <li class="navbar-item">
-          <router-link to="/" class="navbar-link" @click="closeMenu">首頁</router-link>
+  <header id="header">
+    <h1><router-link to="/">Future Imperfect</router-link></h1>
+    <nav class="links">
+      <ul>
+        <li><router-link to="/">首頁</router-link></li>
+        <li><router-link to="/about">關於我</router-link></li>
+        <li><router-link to="/portfolio">作品集</router-link></li>
+        <li><router-link to="/contact">聯絡我</router-link></li>
+      </ul>
+    </nav>
+    <nav class="main">
+      <ul>
+        <li class="theme-toggle-item">
+          <a href="#" @click.prevent="toggleTheme" class="icon" :title="isDark ? '切換至淺色模式' : '切換至深色模式'">
+            <i v-if="isDark" class="bi bi-sun-fill"></i>
+            <i v-else class="bi bi-moon-stars-fill"></i>
+          </a>
         </li>
-        <li class="navbar-item">
-          <router-link to="/about" class="navbar-link" @click="closeMenu">關於我</router-link>
-        </li>
-        <li class="navbar-item">
-          <router-link to="/portfolio" class="navbar-link" @click="closeMenu">作品集</router-link>
-        </li>
-        <li class="navbar-item">
-          <router-link to="/contact" class="navbar-link" @click="closeMenu">聯絡我</router-link>
+        <li class="menu">
+          <a class="fa-bars" href="#menu" @click.prevent="toggleMenu">選單</a>
         </li>
       </ul>
-    </div>
-  </nav>
+    </nav>
+
+    <!-- 行動裝置選單 -->
+    <section id="menu" :class="{ active: isMenuOpen }">
+      <section>
+        <ul class="links">
+          <li>
+            <router-link to="/" @click="closeMenu">
+              <h3>首頁</h3>
+              <p>回到首頁查看最新動態</p>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/about" @click="closeMenu">
+              <h3>關於我</h3>
+              <p>了解我的背景與經歷</p>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/portfolio" @click="closeMenu">
+              <h3>作品集</h3>
+              <p>探索我過去完成的專案</p>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/contact" @click="closeMenu">
+              <h3>聯絡我</h3>
+              <p>隨時與我保持聯繫</p>
+            </router-link>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <ul class="actions stacked">
+          <li><a href="#" @click.prevent="closeMenu" class="button large fit">關閉選單</a></li>
+        </ul>
+      </section>
+    </section>
+  </header>
 </template>
 
 <script setup>
@@ -68,134 +91,181 @@ onMounted(() => {
 </script>
 
 <style scoped lang="scss">
-@use "sass:color";
 @import '../../assets/styles.scss';
 
-.navbar {
-  background-color: var(--color-bg);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px var(--shadow-color);
-  transition: background-color $transition-base, border-color $transition-base;
-}
-
-.navbar-container {
+#header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
-}
+  background-color: var(--color-bg);
+  border-bottom: solid 1px var(--color-border);
+  height: 3.5rem;
+  line-height: 3.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
+  padding: 0 1.5rem;
 
-.logo-text {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--color-accent);
-  letter-spacing: -0.5px;
-}
+  h1 {
+    font-size: 0.7rem;
+    margin: 0;
+    padding: 0 1rem;
+    border-right: solid 1px var(--color-border);
+    height: inherit;
+    line-height: inherit;
+    white-space: nowrap;
 
-.navbar-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.theme-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.25rem;
-  color: var(--color-text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  border-radius: 50%;
-  transition: background-color $transition-base, color $transition-base;
-
-  &:hover {
-    background-color: var(--color-bg-secondary);
-    color: var(--color-accent);
+    a {
+      border-bottom: 0;
+      letter-spacing: 0.25rem;
+      text-transform: uppercase;
+      font-weight: 800;
+    }
   }
-}
 
-.navbar-menu {
-  display: flex;
-  list-style: none;
-  gap: 2rem;
-  align-items: center;
+  .links {
+    flex: 1;
+    border-right: solid 1px var(--color-border);
+    height: inherit;
+    line-height: inherit;
+    margin-left: 1rem;
 
-  @media (max-width: 768px) {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    background-color: var(--color-bg);
-    padding: 1rem;
-    gap: 0.5rem;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height $transition-base;
-    border-bottom: 1px solid var(--color-border);
+    @media (max-width: 980px) {
+      display: none;
+    }
 
-    &.active {
-      max-height: 500px;
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+
+      li {
+        padding: 0 0.75rem;
+        
+        a {
+          border-bottom: 0;
+          font-family: var(--font-family-sans);
+          font-size: 0.6rem;
+          font-weight: 400;
+          letter-spacing: 0.15rem;
+          text-transform: uppercase;
+          color: var(--color-text-muted);
+
+          &:hover, &.router-link-active {
+            color: var(--color-accent);
+          }
+        }
+      }
+    }
+  }
+
+  .main {
+    height: inherit;
+    line-height: inherit;
+
+    ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+
+      li {
+        border-left: solid 1px var(--color-border);
+        padding: 0 1rem;
+
+        a {
+          border-bottom: 0;
+          display: block;
+          font-family: var(--font-family-sans);
+          font-size: 0.6rem;
+          font-weight: 400;
+          letter-spacing: 0.15rem;
+          text-transform: uppercase;
+          color: var(--color-text-muted);
+
+          &.icon {
+            font-size: 1rem;
+          }
+        }
+      }
     }
   }
 }
 
-.navbar-link {
-  color: var(--color-text);
-  font-weight: 500;
-  text-decoration: none;
-  transition: color $transition-base;
-  position: relative;
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: var(--color-accent);
-    transition: width $transition-base;
-  }
-
-  &:hover,
-  &.router-link-active {
-    color: var(--color-accent);
-    &::after { width: 100%; }
-  }
-}
-
-.navbar-toggle {
-  display: none;
-  flex-direction: column;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-  gap: 5px;
-
-  @media (max-width: 768px) {
-    display: flex;
-  }
-
-  span {
-    width: 24px;
-    height: 2px;
-    background-color: var(--color-text);
-    border-radius: 2px;
-    transition: all $transition-base;
-  }
+#menu {
+  background: var(--color-bg);
+  border-left: solid 1px var(--color-border);
+  box-shadow: none;
+  height: 100%;
+  max-width: 80%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 25rem;
+  z-index: 10001;
+  padding: 3rem;
+  transform: translateX(100%);
+  transition: transform 0.5s ease;
+  overflow-y: auto;
 
   &.active {
-    span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
-    span:nth-child(2) { opacity: 0; }
-    span:nth-child(3) { transform: rotate(-45deg) translate(7px, -7px); }
+    transform: translateX(0);
+    box-shadow: -5px 0 20px var(--shadow-color);
+  }
+
+  .links {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 2rem;
+
+    li {
+      border-top: solid 1px var(--color-border);
+      padding: 1.5rem 0;
+
+      &:first-child {
+        border-top: 0;
+        padding-top: 0;
+      }
+
+      a {
+        border-bottom: 0;
+        display: block;
+
+        h3 {
+          font-size: 0.7rem;
+          margin-bottom: 0.25rem;
+          transition: color 0.2s ease;
+        }
+
+        p {
+          font-size: 0.6rem;
+          color: var(--color-text-muted);
+          margin-bottom: 0;
+          text-transform: uppercase;
+          letter-spacing: 0.1rem;
+        }
+
+        &:hover h3 {
+          color: var(--color-accent);
+        }
+      }
+    }
+  }
+
+  .actions.stacked {
+    list-style: none;
+    padding: 0;
+    
+    li {
+      margin-bottom: 1rem;
+    }
+    
+    .button.fit {
+      width: 100%;
+    }
   }
 }
 </style>
