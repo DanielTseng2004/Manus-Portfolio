@@ -10,9 +10,9 @@
 
 - **前端框架**：Vue 3（Composition API）
 - **打包工具**：Vite
-- **路由管理**：Vue Router
+- **路由管理**：Vue Router 5
 - **樣式**：SCSS（Sass）
-- **UI 框架**：Bootstrap 5（已安裝，可選使用）
+- **UI 框架**：Bootstrap 5
 - **圖標**：Bootstrap Icons
 
 ## 目錄結構
@@ -20,14 +20,17 @@
 ```
 src/
 ├── assets/
+│   ├── style.scss           # 全域樣式
 │   ├── styles.scss          # 全域樣式與北歐風格設計系統
-│   ├── hero.png             # 英雄圖片
 │   ├── vite.svg
 │   └── vue.svg
 ├── components/
 │   ├── layout/
 │   │   ├── Navbar.vue       # 導覽列元件
-│   │   └── Footer.vue       # 頁尾元件
+│   │   ├── Footer.vue       # 頁尾元件
+│   │   └── Sidebar.vue      # 側邊欄元件
+│   ├── Banner.vue           # 橫幅元件
+│   ├── HelloWorld.vue       # Hello World 元件
 │   └── HeroSection.vue      # 英雄區塊元件
 ├── router/
 │   └── router.js            # 路由配置
@@ -35,9 +38,11 @@ src/
 │   ├── Home.vue             # 首頁
 │   ├── About.vue            # 關於我頁面
 │   ├── Portfolio.vue        # 作品集頁面
+│   ├── ProjectDetail.vue    # 專案詳情頁面
 │   └── Contact.vue          # 聯絡我頁面
 ├── App.vue                  # 根元件
-└── main.js                  # 應用程式入口
+├── main.js                  # 應用程式入口
+└── style.css                # 全域樣式（未使用）
 ```
 
 ## 色調系統
@@ -87,6 +92,15 @@ src/
 - 作品卡片網格
 - 懸停效果和詳情連結
 
+### 專案詳情 (ProjectDetail.vue)
+
+單一專案的詳細資訊展示。包含：
+
+- 專案標題和描述
+- 專案圖片或截圖
+- 技術棧列表
+- 專案連結
+
 ### 聯絡我 (Contact.vue)
 
 聯繫表單和聯絡資訊。包含：
@@ -100,30 +114,55 @@ src/
 ### Navbar.vue
 
 **功能**：
+
 - 響應式導覽列
 - 行動裝置漢堡選單
 - 活躍頁面指示器
 
 **Props**：無
 
-### Footer.vue
+### Sidebar.vue
 
 **功能**：
-- 多欄位頁尾佈局
-- 導航連結
-- 社群媒體連結
-- 版權資訊
+
+- 側邊欄導航
+- 響應式設計
+- 展開/收起功能
 
 **Props**：無
+
+### Banner.vue
+
+**功能**：
+
+- 頁面橫幅展示
+- 可自訂內容
+
+**Props**：
+
+- `title` (String)：橫幅標題
+
+### HelloWorld.vue
+
+**功能**：
+
+- 簡單的歡迎元件
+- 展示Vue基本功能
+
+**Props**：
+
+- `msg` (String)：顯示訊息
 
 ### HeroSection.vue
 
 **功能**：
+
 - 可自訂的英雄區塊
 - 背景漸層和裝飾圖形
 - 行動呼籲按鈕
 
 **Props**：
+
 - `title` (String)：主標題
 - `subtitle` (String)：副標題
 
@@ -137,6 +176,7 @@ src/
 ### 間距系統
 
 使用 8px 基數的間距系統：
+
 - `$spacing-xs`: 8px
 - `$spacing-sm`: 16px
 - `$spacing-md`: 24px
@@ -148,6 +188,7 @@ src/
 ### 陰影系統
 
 四級陰影深度：
+
 - `$shadow-sm`：輕微陰影
 - `$shadow-md`：中等陰影
 - `$shadow-lg`：較深陰影
@@ -161,12 +202,13 @@ src/
 
 ## 路由配置
 
-| 路徑         | 名稱      | 元件          |
-| ------------ | --------- | ------------- |
-| `/`          | Home      | Home.vue      |
-| `/about`     | About     | About.vue     |
-| `/portfolio` | Portfolio | Portfolio.vue |
-| `/contact`   | Contact   | Contact.vue   |
+| 路徑             | 名稱          | 元件              |
+| ---------------- | ------------- | ----------------- |
+| `/`              | Home          | Home.vue          |
+| `/about`         | About         | About.vue         |
+| `/portfolio`     | Portfolio     | Portfolio.vue     |
+| `/portfolio/:id` | ProjectDetail | ProjectDetail.vue |
+| `/contact`       | Contact       | Contact.vue       |
 
 ## 開發指南
 
@@ -219,6 +261,7 @@ $color-charcoal: #3d3935;      // 修改文字顏色
 ## 響應式設計
 
 網站採用行動優先設計方法，主要斷點：
+
 - **平板及以上**：768px
 - **行動裝置**：< 768px
 

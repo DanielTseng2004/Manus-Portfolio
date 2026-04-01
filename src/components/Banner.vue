@@ -1,11 +1,22 @@
 <template>
   <section id="banner">
     <div class="inner">
-      <div class="logo"><img src="../assets/vue.svg" alt="" /></div>
+      <div class="image">
+        <img
+          src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExbno4b2Z2NzBwYjgxdXgzaGZ1Z2RjamcwZnp0bnk2ams3aTZ5dHZkOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Dg4TxjYikCpiGd7tYs/giphy.gif"
+          alt=""
+        />
+      </div>
       <h2>{{ title }}</h2>
       <p>{{ subtitle }}</p>
       <ul class="actions">
-        <li><router-link to="/portfolio" class="button primary large">查看作品集</router-link></li>
+        <li>
+          <router-link
+            to="/portfolio"
+            class="button primary large"
+            >查看作品集</router-link
+          >
+        </li>
       </ul>
     </div>
   </section>
@@ -15,24 +26,26 @@
 defineProps({
   title: {
     type: String,
-    default: 'Solid State'
+    default: "Solid State",
   },
   subtitle: {
     type: String,
-    default: '這是一個由 HTML5 UP 打造的響應式網站模板'
-  }
+    default: "這是一個由 HTML5 UP 打造的響應式網站模板",
+  },
 });
 </script>
 
 <style scoped lang="scss">
-@import '../assets/styles.scss';
+@import "../assets/styles.scss";
 
 #banner {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 10rem 0 8rem 0;
-  background-image: linear-gradient(rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)), url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+  background-image:
+    linear-gradient(rgba(46, 49, 65, 0.8), rgba(46, 49, 65, 0.8)),
+    url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -126,8 +139,10 @@ defineProps({
         flex-direction: column;
         align-items: center;
         gap: 1rem;
-        
-        li { width: 100%; }
+
+        li {
+          width: 100%;
+        }
       }
     }
   }
