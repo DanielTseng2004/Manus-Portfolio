@@ -1,32 +1,24 @@
 <template>
   <div class="portfolio">
-    <header class="main-header">
-      <h1>我的作品集</h1>
-      <p>展示我過去完成的專案與設計作品</p>
-    </header>
+    <section class="wrapper style1">
+      <div class="inner">
+        <h2 class="major">我的作品集</h2>
+        <p>展示我過去完成的專案與設計作品，涵蓋網頁開發、應用程式設計與數據分析。</p>
+        
+        <div class="features">
+          <article v-for="project in projects" :key="project.id">
+            <div class="placeholder-box">{{ project.name }}</div>
+            <h3 class="major">{{ project.name }}</h3>
+            <p>{{ project.description }}</p>
+            <router-link :to="'/portfolio/' + project.id" class="button">查看詳情</router-link>
+          </article>
+        </div>
 
-    <div class="grid grid-2">
-      <article class="post mini-post" v-for="project in projects" :key="project.id">
-        <header>
-          <div class="title">
-            <h3><router-link :to="'/portfolio/' + project.id">{{ project.name }}</router-link></h3>
-            <p>{{ project.category }}</p>
-          </div>
-          <div class="meta">
-            <time class="published" datetime="2026-04-01">April 1, 2026</time>
-          </div>
-        </header>
-        <router-link :to="'/portfolio/' + project.id" class="image featured">
-          <div class="placeholder-mini">{{ project.name }}</div>
-        </router-link>
-        <p class="description">{{ project.description }}</p>
-        <footer>
-          <ul class="actions">
-            <li><router-link :to="'/portfolio/' + project.id" class="button">查看詳情</router-link></li>
-          </ul>
-        </footer>
-      </article>
-    </div>
+        <ul class="actions">
+          <li><router-link to="/" class="button primary">返回首頁</router-link></li>
+        </ul>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -44,7 +36,7 @@ const projects = ref([
     id: 2,
     name: '任務管理應用',
     category: 'App Design',
-    description: '協作型任務管理工具，支援即時同步和團隊功能。'
+    description: '協作型任務管理工具，支援即時看板更新、任務分配、截止日期提醒以及檔案共享功能。'
   },
   {
     id: 3,
@@ -76,71 +68,58 @@ const projects = ref([
 <style scoped lang="scss">
 @import '../assets/styles.scss';
 
-.main-header {
-  text-align: center;
-  margin-bottom: 4rem;
-  border-bottom: solid 1px var(--color-border);
-  padding-bottom: 2rem;
-  
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  p {
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0;
+.portfolio {
+  padding-top: 4rem;
+}
+
+.major {
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    background-image: var(--gradient-accent);
   }
 }
 
-.mini-post {
-  padding: 2rem;
-  margin-bottom: 0;
-  
-  header {
-    margin: -2rem -2rem 2rem -2rem;
-    padding: 2rem;
-    
-    .title h3 {
-      font-size: 1rem;
-      margin-bottom: 0.25rem;
-    }
-    
-    .meta {
-      margin-left: 1rem;
-      min-width: 6rem;
-    }
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 4rem;
+
+  @media (max-width: 736px) {
+    grid-template-columns: 1fr;
   }
-  
-  .placeholder-mini {
-    height: 12rem;
-    background-color: var(--color-bg-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-    font-size: 1rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15rem;
+
+  article {
+    background-color: var(--color-bg-alt);
+    padding: 3rem;
     border: solid 1px var(--color-border);
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-accent);
+    }
+
+    h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+    p { font-size: 0.9rem; margin-bottom: 2rem; height: 4.5rem; overflow: hidden; }
   }
-  
-  .description {
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-    height: 4.5rem;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-  }
-  
-  footer {
-    margin-top: 0;
-    justify-content: center;
-  }
+}
+
+.actions {
+  list-style: none;
+  padding: 0;
+  margin-top: 4rem;
+  display: flex;
+  justify-content: center;
 }
 </style>

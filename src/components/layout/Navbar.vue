@@ -1,72 +1,35 @@
 <template>
-  <header id="header">
-    <h1><router-link to="/">Future Imperfect</router-link></h1>
-    <nav class="links">
-      <ul>
-        <li><router-link to="/">首頁</router-link></li>
-        <li><router-link to="/about">關於我</router-link></li>
-        <li><router-link to="/portfolio">作品集</router-link></li>
-        <li><router-link to="/contact">聯絡我</router-link></li>
-      </ul>
-    </nav>
-    <nav class="main">
-      <ul>
-        <li class="theme-toggle-item">
-          <a href="#" @click.prevent="toggleTheme" class="icon" :title="isDark ? '切換至淺色模式' : '切換至深色模式'">
-            <i v-if="isDark" class="bi bi-sun-fill"></i>
-            <i v-else class="bi bi-moon-stars-fill"></i>
-          </a>
-        </li>
-        <li class="menu">
-          <a class="fa-bars" href="#menu" @click.prevent="toggleMenu">選單</a>
-        </li>
-      </ul>
+  <header id="header" :class="{ alt: isAlt }">
+    <h1><router-link to="/">Solid State</router-link></h1>
+    <nav>
+      <a href="#menu" @click.prevent="toggleMenu">選單</a>
     </nav>
 
-    <!-- 行動裝置選單 -->
-    <section id="menu" :class="{ active: isMenuOpen }">
-      <section>
+    <!-- 側邊選單 -->
+    <nav id="menu" :class="{ active: isMenuOpen }">
+      <div class="inner">
+        <h2>選單</h2>
         <ul class="links">
-          <li>
-            <router-link to="/" @click="closeMenu">
-              <h3>首頁</h3>
-              <p>回到首頁查看最新動態</p>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/about" @click="closeMenu">
-              <h3>關於我</h3>
-              <p>了解我的背景與經歷</p>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/portfolio" @click="closeMenu">
-              <h3>作品集</h3>
-              <p>探索我過去完成的專案</p>
-            </router-link>
-          </li>
-          <li>
-            <router-link to="/contact" @click="closeMenu">
-              <h3>聯絡我</h3>
-              <p>隨時與我保持聯繫</p>
-            </router-link>
-          </li>
+          <li><router-link to="/" @click="closeMenu">首頁</router-link></li>
+          <li><router-link to="/about" @click="closeMenu">關於我</router-link></li>
+          <li><router-link to="/portfolio" @click="closeMenu">作品集</router-link></li>
+          <li><router-link to="/contact" @click="closeMenu">聯絡我</router-link></li>
         </ul>
-      </section>
-      <section>
         <ul class="actions stacked">
-          <li><a href="#" @click.prevent="closeMenu" class="button large fit">關閉選單</a></li>
+          <li><a href="#" @click.prevent="toggleTheme" class="button primary fit">{{ isDark ? '切換至淺色模式' : '切換至深色模式' }}</a></li>
+          <li><a href="#" @click.prevent="closeMenu" class="button fit">關閉</a></li>
         </ul>
-      </section>
-    </section>
+      </div>
+    </nav>
   </header>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const isMenuOpen = ref(false);
-const isDark = ref(false);
+const isDark = ref(true);
+const isAlt = ref(true);
 
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
@@ -83,10 +46,19 @@ const toggleTheme = () => {
   localStorage.setItem('theme', theme);
 };
 
+const handleScroll = () => {
+  isAlt.value = window.scrollY < 100;
+};
+
 onMounted(() => {
-  const savedTheme = localStorage.getItem('theme') || 'light';
+  const savedTheme = localStorage.getItem('theme') || 'dark';
   isDark.value = savedTheme === 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
 });
 </script>
 
@@ -98,7 +70,7 @@ onMounted(() => {
   justify-content: space-between;
   align-items: center;
   background-color: var(--color-bg);
-  border-bottom: solid 1px var(--color-border);
+  color: var(--color-text);
   height: 3.5rem;
   line-height: 3.5rem;
   position: fixed;
@@ -107,98 +79,46 @@ onMounted(() => {
   width: 100%;
   z-index: 10000;
   padding: 0 1.5rem;
+  transition: background-color 0.3s ease;
+
+  &.alt {
+    background-color: transparent;
+  }
 
   h1 {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     margin: 0;
-    padding: 0 1rem;
-    border-right: solid 1px var(--color-border);
-    height: inherit;
-    line-height: inherit;
-    white-space: nowrap;
+    letter-spacing: 0.25rem;
+    text-transform: uppercase;
+    font-weight: 700;
 
     a {
       border-bottom: 0;
-      letter-spacing: 0.25rem;
+      color: inherit;
+    }
+  }
+
+  nav {
+    a {
+      border-bottom: 0;
+      font-size: 0.8rem;
+      font-weight: 700;
       text-transform: uppercase;
-      font-weight: 800;
-    }
-  }
-
-  .links {
-    flex: 1;
-    border-right: solid 1px var(--color-border);
-    height: inherit;
-    line-height: inherit;
-    margin-left: 1rem;
-
-    @media (max-width: 980px) {
-      display: none;
-    }
-
-    ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-
-      li {
-        padding: 0 0.75rem;
-        
-        a {
-          border-bottom: 0;
-          font-family: var(--font-family-sans);
-          font-size: 0.6rem;
-          font-weight: 400;
-          letter-spacing: 0.15rem;
-          text-transform: uppercase;
-          color: var(--color-text-muted);
-
-          &:hover, &.router-link-active {
-            color: var(--color-accent);
-          }
-        }
-      }
-    }
-  }
-
-  .main {
-    height: inherit;
-    line-height: inherit;
-
-    ul {
-      list-style: none;
-      display: flex;
-      margin: 0;
-      padding: 0;
-
-      li {
-        border-left: solid 1px var(--color-border);
-        padding: 0 1rem;
-
-        a {
-          border-bottom: 0;
-          display: block;
-          font-family: var(--font-family-sans);
-          font-size: 0.6rem;
-          font-weight: 400;
-          letter-spacing: 0.15rem;
-          text-transform: uppercase;
-          color: var(--color-text-muted);
-
-          &.icon {
-            font-size: 1rem;
-          }
-        }
+      letter-spacing: 0.2rem;
+      color: inherit;
+      
+      &::before {
+        content: '≡';
+        margin-right: 0.5rem;
+        font-size: 1.2rem;
+        vertical-align: middle;
       }
     }
   }
 }
 
 #menu {
-  background: var(--color-bg);
-  border-left: solid 1px var(--color-border);
-  box-shadow: none;
+  background-color: var(--color-bg-alt);
   height: 100%;
   max-width: 80%;
   position: fixed;
@@ -210,61 +130,61 @@ onMounted(() => {
   transform: translateX(100%);
   transition: transform 0.5s ease;
   overflow-y: auto;
+  box-shadow: -5px 0 20px var(--shadow-color);
 
   &.active {
     transform: translateX(0);
-    box-shadow: -5px 0 20px var(--shadow-color);
   }
 
-  .links {
-    list-style: none;
-    padding: 0;
-    margin-bottom: 2rem;
+  .inner {
+    h2 {
+      font-size: 1.5rem;
+      border-bottom: solid 2px var(--color-border);
+      padding-bottom: 1rem;
+      margin-bottom: 2rem;
+    }
 
-    li {
-      border-top: solid 1px var(--color-border);
-      padding: 1.5rem 0;
+    .links {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 3rem;
 
-      &:first-child {
-        border-top: 0;
-        padding-top: 0;
-      }
+      li {
+        border-top: solid 1px var(--color-border);
+        padding: 1rem 0;
 
-      a {
-        border-bottom: 0;
-        display: block;
-
-        h3 {
-          font-size: 0.7rem;
-          margin-bottom: 0.25rem;
-          transition: color 0.2s ease;
+        &:first-child {
+          border-top: 0;
+          padding-top: 0;
         }
 
-        p {
-          font-size: 0.6rem;
-          color: var(--color-text-muted);
-          margin-bottom: 0;
+        a {
+          border-bottom: 0;
+          display: block;
+          font-size: 0.8rem;
+          font-weight: 700;
           text-transform: uppercase;
-          letter-spacing: 0.1rem;
-        }
+          letter-spacing: 0.2rem;
+          color: var(--color-text);
 
-        &:hover h3 {
-          color: var(--color-accent);
+          &:hover {
+            color: var(--color-accent);
+          }
         }
       }
     }
-  }
 
-  .actions.stacked {
-    list-style: none;
-    padding: 0;
-    
-    li {
-      margin-bottom: 1rem;
-    }
-    
-    .button.fit {
-      width: 100%;
+    .actions.stacked {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        margin-bottom: 1rem;
+      }
+      
+      .button.fit {
+        width: 100%;
+      }
     }
   }
 }

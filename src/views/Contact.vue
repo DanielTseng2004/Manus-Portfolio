@@ -1,58 +1,50 @@
 <template>
-  <article class="post">
-    <header>
-      <div class="title">
-        <h2>聯絡我</h2>
-        <p>讓我們保持聯繫，討論新的合作機會</p>
-      </div>
-      <div class="meta">
-        <time class="published" datetime="2026-04-01">April 1, 2026</time>
-        <a href="#" class="author"><span class="name">Jane Doe</span><img src="../assets/vue.svg" alt="" /></a>
-      </div>
-    </header>
-    
-    <section>
-      <p>如果您對我的作品感興趣，或者想要討論新的專案合作機會，歡迎通過以下表單與我聯絡。我通常會在 24 小時內回覆。</p>
-      
-      <form @submit.prevent="handleSubmit" class="contact-form">
-        <div class="row gtr-uniform">
-          <div class="col-6 col-12-xsmall">
-            <input type="text" v-model="form.name" placeholder="姓名" required />
+  <div class="contact-page">
+    <section class="wrapper style1">
+      <div class="inner">
+        <h2 class="major">聯絡我</h2>
+        <p>如果您對我的作品感興趣，或者想要討論新的專案合作機會，歡迎通過以下表單與我聯絡。我通常會在 24 小時內回覆。</p>
+        
+        <form @submit.prevent="handleSubmit" class="contact-form">
+          <div class="fields">
+            <div class="field half">
+              <label for="name">姓名</label>
+              <input type="text" v-model="form.name" id="name" required />
+            </div>
+            <div class="field half">
+              <label for="email">電子郵件</label>
+              <input type="email" v-model="form.email" id="email" required />
+            </div>
+            <div class="field">
+              <label for="subject">主旨</label>
+              <input type="text" v-model="form.subject" id="subject" required />
+            </div>
+            <div class="field">
+              <label for="message">訊息內容</label>
+              <textarea v-model="form.message" id="message" rows="6" required></textarea>
+            </div>
           </div>
-          <div class="col-6 col-12-xsmall">
-            <input type="email" v-model="form.email" placeholder="電子郵件" required />
-          </div>
-          <div class="col-12">
-            <input type="text" v-model="form.subject" placeholder="主旨" required />
-          </div>
-          <div class="col-12">
-            <textarea v-model="form.message" placeholder="訊息內容" rows="6" required></textarea>
-          </div>
-          <div class="col-12">
-            <ul class="actions">
-              <li><input type="submit" value="發送訊息" class="button large" /></li>
-              <li><input type="reset" value="重設" class="button large" @click="resetForm" /></li>
-            </ul>
-          </div>
-        </div>
-      </form>
-      
-      <p v-if="submitMessage" class="submit-message" :class="{ success: submitSuccess }">
-        {{ submitMessage }}
-      </p>
-    </section>
+          <ul class="actions">
+            <li><input type="submit" value="發送訊息" class="button primary large" /></li>
+            <li><input type="reset" value="重設" class="button large" @click="resetForm" /></li>
+          </ul>
+        </form>
+        
+        <p v-if="submitMessage" class="submit-message" :class="{ success: submitSuccess }">
+          {{ submitMessage }}
+        </p>
 
-    <hr />
-
-    <section>
-      <h3>其他聯絡方式</h3>
-      <ul class="contact-list">
-        <li><strong>電子郵件:</strong> <a href="mailto:hello@example.com">hello@example.com</a></li>
-        <li><strong>電話:</strong> <a href="tel:+886123456789">+886 (123) 456-789</a></li>
-        <li><strong>地址:</strong> 台灣，台北市</li>
-      </ul>
+        <section class="other-contact">
+          <h3 class="major">其他聯絡方式</h3>
+          <ul class="contact-list">
+            <li><strong>電子郵件:</strong> <a href="mailto:hello@example.com">hello@example.com</a></li>
+            <li><strong>電話:</strong> <a href="tel:+886123456789">+886 (123) 456-789</a></li>
+            <li><strong>地址:</strong> 台灣，台北市</li>
+          </ul>
+        </section>
+      </div>
     </section>
-  </article>
+  </div>
 </template>
 
 <script setup>
@@ -91,66 +83,100 @@ const resetForm = () => {
 <style scoped lang="scss">
 @import '../assets/styles.scss';
 
+.contact-page {
+  padding-top: 4rem;
+}
+
+.major {
+  position: relative;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 3rem;
+    height: 2px;
+    background-image: var(--gradient-accent);
+  }
+}
+
 .contact-form {
-  margin-top: 2rem;
-  
-  .row {
+  margin-top: 3rem;
+  margin-bottom: 4rem;
+
+  .fields {
     display: flex;
     flex-wrap: wrap;
     gap: 1.5rem;
-    
-    .col-6 { width: calc(50% - 0.75rem); }
-    .col-12 { width: 100%; }
-    
-    @media (max-width: 736px) {
-      .col-6 { width: 100%; }
+    margin-bottom: 2rem;
+
+    .field {
+      width: 100%;
+      
+      &.half {
+        width: calc(50% - 0.75rem);
+        @media (max-width: 736px) { width: 100%; }
+      }
+
+      label {
+        display: block;
+        font-size: 0.8rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        margin-bottom: 0.5rem;
+        color: var(--color-text);
+      }
+
+      input[type="text"],
+      input[type="email"],
+      textarea {
+        width: 100%;
+        background: var(--color-bg-alt);
+        border: solid 1px var(--color-border);
+        padding: 0.75rem 1rem;
+        color: var(--color-text);
+        border-radius: 4px;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--color-accent);
+        }
+      }
     }
-  }
-  
-  input[type="text"],
-  input[type="email"],
-  textarea {
-    width: 100%;
-    background: var(--color-bg-secondary);
-    border: solid 1px var(--color-border);
-    padding: 0.75rem 1rem;
-    font-family: var(--font-family-serif);
-    font-size: 0.9rem;
-    color: var(--color-text);
-    transition: border-color 0.2s ease;
-    
-    &:focus {
-      outline: none;
-      border-color: var(--color-accent);
-    }
-  }
-  
-  input[type="submit"],
-  input[type="reset"] {
-    border-radius: 0;
   }
 }
 
-hr {
-  border: 0;
-  border-bottom: solid 1px var(--color-border);
-  margin: 3rem 0;
-}
-
-.contact-list {
-  list-style: none;
-  padding: 0;
+.other-contact {
+  margin-top: 4rem;
   
-  li {
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
+  .contact-list {
+    list-style: none;
+    padding: 0;
     
-    strong {
-      font-family: var(--font-family-sans);
-      text-transform: uppercase;
-      font-size: 0.7rem;
-      letter-spacing: 0.1rem;
-      margin-right: 0.5rem;
+    li {
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      
+      strong {
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 0.1rem;
+        margin-right: 0.5rem;
+        color: var(--color-text);
+      }
+
+      a {
+        border-bottom: 0;
+        color: inherit;
+        &:hover { color: var(--color-accent); }
+      }
     }
   }
 }
@@ -158,17 +184,24 @@ hr {
 .submit-message {
   margin-top: 1.5rem;
   padding: 1rem;
-  background: var(--color-bg-secondary);
+  background: var(--color-bg-alt);
   border: solid 1px var(--color-border);
   text-align: center;
-  font-family: var(--font-family-sans);
-  font-size: 0.7rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1rem;
+  font-size: 0.8rem;
   
   &.success {
     color: var(--color-accent);
     border-color: var(--color-accent);
   }
+}
+
+.actions {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1.5rem;
 }
 </style>

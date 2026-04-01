@@ -2,51 +2,54 @@
 @use "sass:math";
 
 // ============================================
-// Future Imperfect 風格色調系統
+// Solid State 風格色調系統
 // ============================================
 
-// 淺色模式
-$light-bg: #ffffff;
-$light-bg-secondary: #f4f4f4;
-$light-text: #3c3b3b;
-$light-text-muted: #aaaaaa;
-$light-border: #eeeeee;
-$light-accent: #2ebaae; // 經典的青綠色
+// 基礎色調 (深色模式為預設)
+$dark-bg: #2e3141;               // 深藍灰背景
+$dark-bg-alt: #353849;           // 較淺的背景
+$dark-text: #ffffff;             // 純白文字
+$dark-text-muted: rgba(255, 255, 255, 0.55); // 半透明文字
+$dark-border: rgba(255, 255, 255, 0.125);
 
-// 深色模式 (保留北歐深色調但調整細節)
-$dark-bg: #1a1c1e;
-$dark-bg-secondary: #25282b;
-$dark-text: #e1e1e1;
-$dark-text-muted: #888888;
-$dark-border: #333333;
-$dark-accent: #2ebaae;
+// 霓虹漸層色
+$accent-pink: #f6759e;
+$accent-purple: #9b59b6;
+$accent-blue: #4a90e2;
+$gradient-primary: linear-gradient(45deg, $accent-pink 0%, $accent-purple 100%);
+
+// 淺色模式 (作為備選)
+$light-bg: #f4f4f7;
+$light-bg-alt: #ffffff;
+$light-text: #2e3141;
+$light-text-muted: rgba(46, 49, 65, 0.6);
+$light-border: rgba(46, 49, 65, 0.1);
 
 // ============================================
 // CSS 變數系統
 // ============================================
 
 :root {
-  --color-bg: #{$light-bg};
-  --color-bg-secondary: #{$light-bg-secondary};
-  --color-text: #{$light-text};
-  --color-text-muted: #{$light-text-muted};
-  --color-border: #{$light-border};
-  --color-accent: #{$light-accent};
-  --color-card-bg: #ffffff;
-  --shadow-color: rgba(0, 0, 0, 0.05);
-  --font-family-serif: "Source Sans Pro", Helvetica, sans-serif;
-  --font-family-sans: "Raleway", Helvetica, sans-serif;
-}
-
-[data-theme="dark"] {
   --color-bg: #{$dark-bg};
-  --color-bg-secondary: #{$dark-bg-secondary};
+  --color-bg-alt: #{$dark-bg-alt};
   --color-text: #{$dark-text};
   --color-text-muted: #{$dark-text-muted};
   --color-border: #{$dark-border};
-  --color-accent: #{$dark-accent};
-  --color-card-bg: #{$dark-bg-secondary};
+  --color-accent: #{$accent-pink};
+  --gradient-accent: #{$gradient-primary};
+  --font-family: "Source Sans Pro", Helvetica, sans-serif;
   --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="light"] {
+  --color-bg: #{$light-bg};
+  --color-bg-alt: #{$light-bg-alt};
+  --color-text: #{$light-text};
+  --color-text-muted: #{$light-text-muted};
+  --color-border: #{$light-border};
+  --color-accent: #{$accent-purple};
+  --gradient-accent: linear-gradient(45deg, #{$accent-purple} 0%, #{$accent-blue} 100%);
+  --shadow-color: rgba(0, 0, 0, 0.05);
 }
 
 // ============================================
@@ -60,204 +63,100 @@ $dark-accent: #2ebaae;
 }
 
 body {
-  font-family: var(--font-family-serif);
+  font-family: var(--font-family);
   font-size: 1rem;
-  line-height: 1.75;
+  line-height: 1.65;
   color: var(--color-text);
-  background-color: var(--color-bg-secondary); // 背景通常是淺灰色
-  transition: background-color 250ms ease, color 250ms ease;
+  background-color: var(--color-bg);
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-family-sans);
-  font-weight: 800;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.25rem;
+  letter-spacing: 0.2rem;
   color: var(--color-text);
   margin-bottom: 1.5rem;
 }
 
 p {
   margin-bottom: 1.5rem;
+  color: var(--color-text-muted);
 }
 
 a {
-  color: inherit;
+  color: var(--color-accent);
   text-decoration: none;
-  border-bottom: dotted 1px rgba(160, 160, 160, 0.65);
   transition: color 0.2s ease, border-bottom-color 0.2s ease;
+  border-bottom: dotted 1px rgba(255, 255, 255, 0.5);
 
   &:hover {
-    color: var(--color-accent);
+    color: #ffffff;
     border-bottom-color: transparent;
   }
 }
 
 // ============================================
-// 佈局元件
+// Solid State 特色佈局: Wrapper & Section
 // ============================================
 
-.container {
+.wrapper {
+  width: 100%;
+  position: relative;
+  padding: 6rem 0;
+
+  &.style1 { background-color: var(--color-bg); }
+  &.style2 { background-color: var(--color-bg-alt); }
+  &.style3 { background-color: color.adjust($dark-bg, $lightness: -2%); }
+
+  // 傾斜背景效果
+  &.spotlight {
+    display: flex;
+    align-items: center;
+    padding: 8rem 0;
+
+    .inner {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+
+      @media (max-width: 980px) {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .image {
+      width: 25rem;
+      height: 25rem;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: solid 10px var(--color-border);
+      
+      img { width: 100%; height: 100%; object-fit: cover; }
+
+      @media (max-width: 736px) {
+        width: 15rem;
+        height: 15rem;
+      }
+    }
+
+    &:nth-child(even) {
+      .inner { flex-direction: row-reverse; }
+      @media (max-width: 980px) { .inner { flex-direction: column; } }
+    }
+  }
+}
+
+.inner {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  display: flex;
-  gap: 3rem;
-
-  @media (max-width: 980px) {
-    flex-direction: column;
-    padding: 0 1.5rem;
-  }
-}
-
-#main {
-  flex: 1;
-  min-width: 0; // 防止內容溢出
-}
-
-#sidebar {
-  width: 22rem;
-  flex-shrink: 0;
-
-  @media (max-width: 980px) {
-    width: 100%;
-  }
-}
-
-// ============================================
-// Future Imperfect 文章/專案卡片樣式
-// ============================================
-
-.post {
-  background: var(--color-card-bg);
-  border: solid 1px var(--color-border);
-  margin-bottom: 3rem;
-  padding: 3rem;
-
-  @media (max-width: 736px) {
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    border-bottom: solid 1px var(--color-border);
-    margin: -3rem -3rem 3rem -3rem;
-    padding: 3rem;
-
-    @media (max-width: 736px) {
-      flex-direction: column;
-      margin: -1.5rem -1.5rem 1.5rem -1.5rem;
-      padding: 1.5rem;
-    }
-
-    .title {
-      flex: 1;
-      h2 {
-        font-size: 1.5rem;
-        margin-bottom: 0.5rem;
-      }
-      p {
-        text-transform: uppercase;
-        letter-spacing: 0.15rem;
-        font-size: 0.7rem;
-        color: var(--color-text-muted);
-        margin-bottom: 0;
-      }
-    }
-
-    .meta {
-      text-align: right;
-      margin-left: 2rem;
-      min-width: 8rem;
-
-      @media (max-width: 736px) {
-        text-align: left;
-        margin-left: 0;
-        margin-top: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-      }
-
-      .published {
-        font-family: var(--font-family-sans);
-        font-size: 0.7rem;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.15rem;
-        display: block;
-        margin-bottom: 0.5rem;
-      }
-
-      .author {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 0.75rem;
-
-        @media (max-width: 736px) {
-          justify-content: flex-start;
-        }
-
-        .name {
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          letter-spacing: 0.15rem;
-          border-bottom: 0;
-        }
-
-        img {
-          width: 2.5rem;
-          height: 2.5rem;
-          border-radius: 50%;
-        }
-      }
-    }
-  }
-
-  .image.featured {
-    display: block;
-    margin: 0 0 3rem 0;
-    width: 100%;
-    img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-  }
-
-  footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 3rem;
-
-    .actions {
-      list-style: none;
-      display: flex;
-      gap: 1rem;
-    }
-
-    .stats {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-      color: var(--color-text-muted);
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1rem;
-
-      li {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: default;
-      }
-    }
-  }
 }
 
 // ============================================
@@ -266,31 +165,61 @@ a {
 
 .button {
   display: inline-block;
-  height: 3rem;
-  line-height: 3rem;
-  padding: 0 2rem;
+  padding: 0.75rem 2rem;
   background-color: transparent;
-  border: solid 1px var(--color-border);
-  color: var(--color-text);
-  font-family: var(--font-family-sans);
-  font-weight: 800;
+  border: solid 2px var(--color-border);
+  color: var(--color-text) !important;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2rem;
-  font-size: 0.7rem;
-  text-align: center;
+  font-size: 0.8rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: all 0.2s ease;
 
   &:hover {
     border-color: var(--color-accent);
     color: var(--color-accent) !important;
   }
 
-  &.large {
-    height: 4rem;
-    line-height: 4rem;
-    padding: 0 3rem;
-    font-size: 0.8rem;
+  &.primary {
+    background-image: var(--gradient-accent);
+    border: none;
+    color: #ffffff !important;
+    &:hover {
+      filter: brightness(1.1);
+    }
+  }
+}
+
+// ============================================
+// 卡片與網格
+// ============================================
+
+.features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 4rem;
+
+  @media (max-width: 736px) {
+    grid-template-columns: 1fr;
+  }
+
+  article {
+    background-color: var(--color-bg-alt);
+    padding: 3rem;
+    border: solid 1px var(--color-border);
+    border-radius: 4px;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-accent);
+    }
+
+    h3 { font-size: 1.2rem; margin-bottom: 1rem; }
+    p { font-size: 0.9rem; margin-bottom: 2rem; }
   }
 }
 
@@ -298,9 +227,39 @@ a {
 // 工具類
 // ============================================
 
-.section-title {
-  border-bottom: solid 1px var(--color-border);
+.special {
+  text-align: center;
+  margin-bottom: 4rem;
+  
+  h2 {
+    font-size: 2rem;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 1rem;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 25%;
+      width: 50%;
+      height: 2px;
+      background-image: var(--gradient-accent);
+    }
+  }
+}
+
+.placeholder-box {
+  width: 100%;
+  height: 15rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1rem;
   font-size: 0.8rem;
 }
